@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import QueryData, ResultData
 from .forms import QueryForm
 import google.generativeai as genai
+from IPython.display import Markdown
+import textwrap
+import json
 
 def home(request):
     queryForm = QueryForm()                                     # QueryForm(instance=queryData)
@@ -23,10 +26,9 @@ def result(request, pk):
         'days': queryData.duration,
         'budget': queryData.budget,
     }
-    generate_travel_suggestions(str(query_prompt))
-
-    data = {'QueryData': queryData}
-    return render(request, 'base/result.html', data)
+    result = generate_travel_suggestions(str(query_prompt))
+    print(result)
+    return render(request, 'base/result.html', {"result": result})
 
 def generate_travel_suggestions(travel_query):
 
@@ -64,7 +66,7 @@ def generate_travel_suggestions(travel_query):
     
     prompt_parts = [
     "Given a travel location, corresponding travel duration and requirements."
-    + "Generate travel suggestions for that location in a python dictionary format for use in Django( no need for it to be nested )." 
+    + "Generate travel suggestions for that location in a bullet point format" 
     + " Here are the wanted labels: Day of travel (e.g.1 ), Time of Travel (e.g. Morning, Evening), Description, Expected Spending, Additional Details, Image." 
     + "\n\nThings to take note of: \nIf the the number of days of the travel is greater than a day. Separate suggestions to morning, afternoon, evening and night."
     + "Travel suggestion should satisfy the travel requirements as specified by the query info."
@@ -73,4 +75,8 @@ def generate_travel_suggestions(travel_query):
     ]
 
     response = model.generate_content(prompt_parts)
+    result = (response)
     print(response.text)
+    return result
+
+
