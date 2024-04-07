@@ -1,136 +1,67 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-
-<style> 
-
-    #Content-Section{
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .content {
-        width: 1200px;
-        padding: 10px;
-        display: flex;
-        align-items: center;
+<style>
+    .form-box {
+        padding: 8px; /* makes it look neat */
+        border-radius: 4px; /* or 2px */
+        border: 2px solid brown;
     }
 
-    .query-form{
-        width: 50%;
-    }
-    
-    .query-form form {
-        width: fit-content;
-        background-color: #FFFFFF;
-        border-radius: 20px;
-        box-shadow: 0 8px 24px hsla(0, 0%, 0%, .15);
-        padding: 20px;
-        
-    }
-
-    .query-form label{
-        display: flex;
-        width: 150px;
-        font-weight: bold;
-    }
-    
-    .query-form-quetions {
-        display: flex;
-        align-items: center;
-        margin: 20px 0px 20px 0px;
-    }
-
-    .query-form input[type="text"],  .query-form input[type="number"]{
-        font-size: 15px;
-        padding: 5px;
+    /* Custom focus style for form elements */
+    input:focus,
+    select:focus,
+    textarea:focus {
         outline: none;
-        border: none;
-        border-bottom: 1px solid #000000;
+        /* Add any additional styling you want for the focus state */
     }
 
-    .query-form input[type="text"]:focus,
-    .query-form input[type="number"]:focus {
-        border-bottom: 1px solid #1584f4; 
-        color: #1584f4;    
+    .img-container {
+        background-image: url("{% static 'holiday.png' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 
-    .query-form-quetions-txt-area {
-        align-items: start;
-    }
-
-    .suggest-now-btn {
-        margin-top: 30px;
-        text-align: right;
-    }
-
-    .suggest-now-btn input[type="submit"] {
-        background-color: #000000;
-        color: #ffffff;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-size: 15px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .suggest-now-btn input[type="submit"]:hover {
-        background-color: #403f3f;
-    }
     
-    .home-img{
-        width: 50%;
-    }
-
 </style>
 
 <section id="Content-Section">
-    <div class="content">
-
-        <div class="query-form"> 
+    <div class="grid grid-cols-2 mt-6 mx-36 rounded-lg border-2 border-black bg-white">
+        <div class="col-span-1 border-r-2 border-black container img-container"></div>
+        <div class="col-span-1 m-6">
             <form method="POST" action="">
                 {% csrf_token %}
-
-                <div class="query-form-quetions">
-                <label for="id_location">Location:</label>
-                {{ QueryForm.location }}
-                <br>
+                <div class="text-lg">
+                    <label for="id_location">LOCATION:</label>
+                    <div class="form-box">
+                        {{ QueryForm.location }}
+                    </div>
                 </div>
-
-                <div class="query-form-quetions query-form-quetions-txt-area">
-                <label for="id_criteria">Criteria:</label>
-                {{ QueryForm.criteria }}
-                <br>
+                <div class="text-lg">
+                    <label for="id_criteria">ACTIVITIES:</label>
+                    <div class="form-box">
+                        {{ QueryForm.criteria }}
+                    </div>
                 </div>
-
-                <div class="query-form-quetions">
-                <label for="id_duration">Duration (days):</label>
-                {{ QueryForm.duration }}
-                <br>
+                <div class="text-lg">
+                    <label for="id_duration">DURATION (DAYS):</label>
+                    <div class="form-box">
+                        {{ QueryForm.duration }}
+                    </div>
                 </div>
-
-                <div class="query-form-quetions">
-                <label for="id_budget">Budget:</label>
-                {{ QueryForm.budget }}
-                <br>
+                <div class="text-lg">
+                    <label for="id_budget">BUDGET (SGD):</label>
+                    <div class="form-box">
+                        {{ QueryForm.budget }}
+                    </div>
                 </div>
-
-                <div class="suggest-now-btn">
-                <input type="submit" value="Suggest Now">
+                <div class="text-center mt-3 button">
+                    <input class="underline" type="submit" value="Plan Now">
                 </div>
-
             </form>
-        </div>
-
-        <div class="home-img">
-
-            
         </div>
     </div>
 </section>
-
 {% endblock %}
