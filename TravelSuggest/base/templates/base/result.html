@@ -4,13 +4,22 @@
 
 <h1>Query Data</h1>
 <div>
+    
     <p>{{QueryData.location}}</p>
 </div>
 
 <h1>Query Result</h1>
 <div>
     {% for result in ResultsData %}
-    <p>{{result.location}}</p>
+        <h2>Day {{ result.day_of_travel }}</h2>
+        <p> Locaiton: {{ result.location }}</p>
+        <p><b>Time:</b> {{ result.time }}</p>
+        <p>{{ result.description }}</p>
+        <p><b>Expected Spending:</b> {{ result.expected_spending }}</p>
+        <p><b>Additional Details:</b> {{ result.additional_details }}</p>
+        <p><img src="{{ result.image }}" alt="img"></p>
+        <p><b>Coordinates:</b> {{ result.coordinates }}</p>
+        <hr>  
     {% endfor %}
 </div>
 
