@@ -30,9 +30,13 @@ def result(request, pk):
     resultData = generate_travel_suggestions(str(query_prompt))
 
     print(resultData)
+
+    first_result = resultData[0]
+    coordinates = first_result['coordinates']
     
     data = {'QueryData': queryData, 
             'ResultsData': resultData,
+            'Coordinates': coordinates,
             }
     return render(request, 'base/result.html', data)
 
@@ -85,7 +89,7 @@ def generate_travel_suggestions(travel_query):
         "expected_spending: This is the expected spending for that suggested location. It should be a range. So a string format would be fine. This should be in the local currency of the travel country and Singaporean dollar.  E.g Going Malaysia. \"expected_spending\": \"SGD20 - SGD50 . MYR 70 - MYR 175\" \n" +
         "additional_details: This is the additional details for the suggested location. E.g. Remember to bring sunscreen, not much shaded error.\n" +
         "image: This is an generated image of the location. It should be a valid absolute url with an image. You can check this by going to the url.\n" +
-        "coordinates: This is the coordinates of the location. It should be callable by the google maps api.\n" +
+        "coordinates: This is the coordinates of the location. It should be callable by the google maps api. It should be as accurate as possible. E.g. \"1.2968785762786865,103.77638244628906\"\n" +
 
         "Very Important things to take note of: \n" +
         "Travel suggestions should satisfy the travel requirements as much as possible .\n" +
@@ -93,6 +97,7 @@ def generate_travel_suggestions(travel_query):
         "No use of ' or ' throughout what is returned. \n" +
         "There must be no use of \\n. For the return output. Meaning return output must be in a single line.\n" +
         "Returned Dictionary key and Dictionary values which are Strings must be in \"\" and thus there should be no use of ' or '.\n" +
+        "Returned itenary must cover the number os days required by the user. E.g. 3 days enters by user then 3 days of activities must be suggested.\n" +
 
         "Here is an example input, it will be a python dict: \n" +
         "{'location': 'Johor', 'criteria': 'I want to experience the night life.', 'days': 2, 'budget': Decimal('2000.00')}" +
